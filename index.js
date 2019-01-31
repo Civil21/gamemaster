@@ -8,7 +8,12 @@ const token = require("./token.json");
 //символ команди
 const character ="$";
 //данні користувачів
-const users = require("./users.json");
+const users_path = "./date/users.json";
+const users = require(users_path);
+//База класів
+const classes = require("./date/classes.json");
+//База предметів
+const items = require("./date/items.json");
 
 //Дія при включені бота(введеня ключа підтвердження)
 bot.login(token)
@@ -24,6 +29,11 @@ bot.on("message", message=> {
   if(message.author.bot) return
   //визначаємо з ким будемо спілкуватись
   let user = message.author;
+  //перевіряємо реєстрацію
+  let reg = users[user.id]?true:false;
+  if(reg){
+    player = users[user.id]
+  }
   //визначаємо де будемо спілкуватись (на каналі чи в приватних повідомленнях)
   let targetSend = message.guild?message.channel:user;
   //перевіряємо чи повідомлення є командою(прямою взаємодією з ботом)
@@ -31,25 +41,46 @@ bot.on("message", message=> {
     //видаляємо симовол команди
     let command = message.content.toLowerCase().substr(1);
 
-    console.log("Read command "+character+command)
+    console.log("Read command "+character+command);
     switch (command) {
       case "start":
-        console.log("start command")
-        targetSend.send("Команда початку гри")
+        console.log("start command");
+        targetSend.send("Команда початку гри");
 
         break;
       case "reg":
       case "registration":
-        console.log("reg command")
-        if(users[user.id]){
-          targetSend.send("Ви вже зареєстровані в гільдії")
+        console.log("reg command");
+        if(reg){
+          targetSend.send("Ви вже зареєстровані в гільдії");
         }else{
-          targetSend.send("Оберіть один з достпуних класів")
-          
+          targetSend.send("Оберіть один з доступуних класів");
+            targetSend.send(classes);
+          player={"статус":"реєстрація-1"};
         }
+        break;
+      case "маг":
+      case "воїн":
+        if(reg && player.статус === "реєстрація-1"){
+            player={"клас":command,"статус":"реєстрація-2"};
+            console.log(player);
+        }
+        break;
+      case "info":
+
         break;
       default:
         targetSend.send("Команда не знайдена")
     }
+    console.log("Sacsec finish");
+    users[user.id]=player
+    fs.writeFile(users_path, JSON.stringify(users), (err) => {
+        if (err) console.error(err)
+    });
   }
 });
+
+function selectClass(player,className){
+
+
+}
