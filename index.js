@@ -43,6 +43,7 @@ bot.on("message", message=> {
 
     console.log("Read command "+character+command);
     switch (command) {
+
       case "start":
         console.log("start command");
         targetSend.send("Команда початку гри");
@@ -55,7 +56,8 @@ bot.on("message", message=> {
           targetSend.send("Ви вже зареєстровані в гільдії");
         }else{
           targetSend.send("Оберіть один з доступуних класів");
-            targetSend.send(classes);
+          targetSend.send("Класс маг - "+classes.маг.опис);
+          targetSend.send("Класс воїн - "+classes.воїн.опис);
           player={"статус":"реєстрація-1"};
         }
         break;
@@ -79,8 +81,3 @@ bot.on("message", message=> {
     });
   }
 });
-
-function selectClass(player,className){
-
-
-}
