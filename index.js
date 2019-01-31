@@ -79,6 +79,18 @@ bot.on("message", message=> {
             return message.channel.send(info);
             break;
         break;
+        case "serverinfo":
+        let icon = message.guild.imageURL;//ne work
+        let serverinfo = new Discord.RichEmbed()
+        .setDescription("RPG GAME")
+        .setColor("#15f153")
+        .setThumbnail(icon) // ne work
+        .addField("Server Name",message.guild.name)
+        .addField("You Joined", message.guild.joinedAt)
+        .addField("Create On", message.guild.createdAt)
+        .addField("Total members", message.guild.memberCount);
+        return message.channel.send(serverinfo);
+        break;
       default:
         targetSend.send("Команда не знайдена")
     }
