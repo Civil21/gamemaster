@@ -69,7 +69,15 @@ bot.on("message", message=> {
         }
         break;
       case "info":
-
+      let bicon = bot.user.displayAvatarURL; //бере теперішню аватарку бота
+            let info = new Discord.RichEmbed()
+            .setDescription("RPG GAME")
+            .setColor("#15f153")
+            .setThumbnail(bicon)
+            .addField("Cyber Spells", bot.user.username)
+            .addField("Create On", bot.user.createdAt);
+            return message.channel.send(info);
+            break;
         break;
       default:
         targetSend.send("Команда не знайдена")
